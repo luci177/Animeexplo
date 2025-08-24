@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeDonghua Hub - Latest Anime & Chinese Donghua Updates</title>
+    <meta name="description" content="Latest anime and Chinese donghua updates, news, episodes, characters, and descriptions. Automatically updated content from official sources.">
+    <meta name="keywords" content="anime, donghua, Chinese animation, anime news, episode updates, anime characters, automatically updated anime">
+    <meta name="author" content="AnimeDonghua Hub">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --accent: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        .search-bar {
+            display: flex;
+            margin: 1rem auto;
+            max-width: 600px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            padding: 0.8rem 1.2rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .hero {
+            background: url('https://images.unsplash.com/photo-1633617477271-d4f351ff7c7c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 2rem;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .card:hover .card-img img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .card-description {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .card-characters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .character-tag {
+            background: #f1f1f1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+        
+        .episode-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .update-indicator {
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #444;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-dragon"></i>
+                <span>AnimeDonghua Hub</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Anime</a></li>
+                    <li><a href="#">Donghua</a></li>
+                    <li><a href="#">Characters</a></li>
+                    <li><a href="#">News</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for anime, donghua, characters...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+    </header>
+    
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Latest Anime & Donghua Updates</h1>
+            <p>Your ultimate source for new episodes, character information, and news about your favorite anime and Chinese animations</p>
+            <a href="#" class="btn">Explore Now</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2 class="section-title">Recently Updated</h2>
+        <div class="update-indicator">
+            <i class="fas fa-sync-alt"></i> Auto-updating every 24 hours
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Anime</button>
+            <button class="filter-btn">Donghua</button>
+            <button class="filter-btn">New Episodes</button>
+            <button class="filter-btn">Popular</button>
+        </div>
+        
+        <div class="content-grid" id="content-grid">
+            <div class="loading">
+                <i class="fas fa-spinner"></i> Loading content...
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Your premier destination for the latest anime and donghua updates, news, and character information. All content is automatically updated from official sources.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Anime List</a></li>
+                    <li><a href="#">Donghua List</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 AnimeDonghua Hub. All rights reserved. Content updates automatically via API integration.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simulated API response data
+        const animeData = [
+            {
+                id: 1,
+                title: "Demon Slayer: Kimetsu no Yaiba",
+                description: "Tanjiro Kamado sets out on a journey to become a demon slayer to avenge his family and save his sister from turning into a demon.",
+                image: "https://images.unsplash.com/photo-1633617477157-2d5c2decb7f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                type: "Anime",
+                episodes: 26,
+                latestEpisode: 5,
+                characters: ["Tanjiro Kamado", "Nezuko Kamado", "Zenitsu Agatsuma", "Inosuke Hashibira"],
+                updated: "2 hours ago"
+            },
+            {
+                id: 2,
+                title: "Soul Land",
+                description: "Tang San, a prodigious talent from the Tang Sect, transmigrates to a new world where he learns spirit abilities and becomes a spirit master.",
+                image: "https://images.unsplash.com/photo-1629385731503-5e70e5dfe7c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80",
+                type: "Donghua",
+                episodes: 250,
+                latestEpisode: 243,
+                characters: ["Tang San", "Xiao Wu", "Ning Rongrong", "Dai Mubai"],
+                updated: "5 hours ago"
+            },
+            {
+                id: 3,
+                title: "Attack on Titan: Final Season",
+                description: "The war for Paradis zeroes in on Shiganshina just as Jaegerists have seized control. The fate of the world hangs in the balance.",
+                image: "https://images.unsplash.com/photo-1633617477271-d4f351ff7c7c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                type: "Anime",
+                episodes: 28,
+                latestEpisode: 28,
+                characters: ["Eren Jaeger", "Mikasa Ackerman", "Armin Arlert", "Levi Ackerman"],
+                updated: "1 day ago"
+            },
+            {
+                id: 4,
+                title: "The King's Avatar",
+                description: "A pro e-sports player is forced to retire but returns to the game he loves through a new identity and rises to the top once again.",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                type: "Donghua",
+                episodes: 24,
+                latestEpisode: 3,
+                characters: ["Ye Xiu", "Su Mucheng", "Chen Guo", "Tang Rou"],
+                updated: "1 day ago"
+            },
+            {
+                id: 5,
+                title: "Jujutsu Kaisen",
+                description: "A boy swallows a cursed talisman and becomes part of the world of Jujutsu Sorcerers to exorcise curses and save humanity.",
+                image: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                type: "Anime",
+                episodes: 24,
+                latestEpisode: 18,
+                characters: ["Yuji Itadori", "Megumi Fushiguro", "Nobara Kugisaki", "Satoru Gojo"],
+                updated: "2 days ago"
+            },
+            {
+                id: 6,
+                title: "Battle Through the Heavens",
+                description: "Xiao Yan, a genius who lost his powers, embarks on a journey to regain his honor and become the strongest alchemist.",
+                image: "https://images.unsplash.com/photo-1621944190310-e3cca1564bd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                type: "Donghua",
+                episodes: 72,
+                latestEpisode: 65,
+                characters: ["Xiao Yan", "Xun Er", "Medusa", "Yao Chen"],
+                updated: "3 days ago"
+            }
+        ];
+
+        // Function to display content
+        function displayContent(content) {
+            const contentGrid = document.getElementById('content-grid');
+            contentGrid.innerHTML = '';
+            
+            content.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <div class="card-img">
+                        <img src="${item.image}" alt="${item.title}">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title}</h3>
+                        <div class="card-meta">
+                            <span>${item.type}</span>
+                            <span>${item.episodes} Episodes</span>
+                        </div>
+                        <p class="card-description">${item.description}</p>
+                        <div class="card-characters">
+                            ${item.characters.map(character => `<span class="character-tag">${character}</span>`).join('')}
+                        </div>
+                        <div class="card-footer">
+                            <span class="episode-badge">Episode ${item.latestEpisode}</span>
+                            <span>Updated: ${item.updated}</span>
+                        </div>
+                    </div>
+                `;
+                
+                contentGrid.appendChild(card);
+            });
+        }
+
+        // Function to simulate API call with random updates
+        function fetchContent() {
+            // In a real implementation, this would be an actual API call
+            console.log("Fetching updated content from API...");
+            
+            // Simulate network delay
+            setTimeout(() => {
+                // Clone and modify data to simulate updates
+                const updatedData = [...animeData];
+                
+                // Randomly update some episodes and timestamps
+                updatedData.forEach(item => {
+                    if (Math.random() > 0.7) { // 30% chance of update
+                        item.latestEpisode += 1;
+                        item.updated = "Just now";
+                    } else if (Math.random() > 0.5) { // Update timestamp only
+                        const timeOptions = ["5 minutes ago", "15 minutes ago", "1 hour ago"];
+                        item.updated = timeOptions[Math.floor(Math.random() * timeOptions.length)];
+                    }
+                });
+                
+                // Add a new item occasionally (10% chance)
+                if (Math.random() > 0.9) {
+                    const newItems = [
+                        {
+                            id: updatedData.length + 1,
+                            title: "Heaven Official's Blessing",
+                            description: "Xie Lian is the crown prince of the Xianle Kingdom, who ascends to heaven at a young age but is banished twice.",
+                            image: "https://images.unsplash.com/photo-1621944190310-e3cca1564bd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                            type: "Donghua",
+                            episodes: 12,
+                            latestEpisode: 1,
+                            characters: ["Xie Lian", "Hua Cheng", "San Lang", "Fu Yao"],
+                            updated: "Just now"
+                        },
+                        {
+                            id: updatedData.length + 1,
+                            title: "One Piece",
+                            description: "Monkey D. Luffy and his pirate crew explore the Grand Line in search of the world's ultimate treasure.",
+                            image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+                            type: "Anime",
+                            episodes: 1050,
+                            latestEpisode: 1050,
+                            characters: ["Luffy", "Zoro", "Nami", "Sanji"],
+                            updated: "1 hour ago"
+                        }
+                    ];
+                    
+                    updatedData.unshift(newItems[Math.floor(Math.random() * newItems.length)]);
+                }
+                
+                displayContent(updatedData);
+                
+                // Show update notification
+                const notification = document.createElement('div');
+                notification.className = 'update-indicator';
+                notification.innerHTML = '<i class="fas fa-check-circle"></i> Content updated successfully';
+                document.querySelector('.container').insertBefore(notification, document.getElementById('content-grid'));
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+                
+            }, 1000); // Simulate network delay
+        }
+
+        // Initial content load
+        document.addEventListener('DOMContentLoaded', () => {
+            // First load
+            setTimeout(() => {
+                displayContent(animeData);
+            }, 1500);
+            
+            // Set up periodic updates (every 60 seconds for demo purposes)
+            setInterval(fetchContent, 60000);
+            
+            // Add filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // In a real application, this would filter the data from the API
+                    // For this demo, we'll just display all data again
+                    displayContent(animeData);
+                });
+            });
+            
+            // Simulate API error handling
+            window.addEventListener('online', fetchContent);
+            window.addEventListener('offline', () => {
+                const contentGrid = document.getElementById('content-grid');
+                contentGrid.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-wifi"></i> Connection lost. Please check your internet connection.
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
